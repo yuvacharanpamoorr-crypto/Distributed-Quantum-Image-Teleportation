@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Bridge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div id="role-selector" class="role-overlay">
+        <div class="role-card">
+            <h2>Select Node Role</h2>
+            <div class="role-buttons">
+                <button onclick="setRole('sender')" class="primary-btn">SENDER</button>
+                <button onclick="setRole('receiver')" class="primary-btn">RECEIVER</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="glass-bg"></div>
+    
+    <header>
+        <h1>QUANTUM BRIDGE</h1>
+        <p>Image Teleportation Simulation</p>
+    </header>
+
+    <main class="container">
+        <!-- SENDER NODE -->
+        <section id="sender-node" class="node-panel">
+            <div class="node-header">
+                <span class="status-dot online"></span>
+                <h2>SENDER</h2>
+            </div>
+            <div class="upload-area" id="drop-zone">
+                <p>Upload image to teleport</p>
+                <input type="file" id="file-input" hidden>
+                <button onclick="document.getElementById('file-input').click()">CHOOSE IMAGE</button>
+            </div>
+            <div id="sender-preview-container" class="image-container hidden">
+                <img id="sender-preview" src="" alt="Preview">
+                <button id="teleport-btn" class="primary-btn">INITIATE TELEPORT</button>
+            </div>
+            <div id="sender-status" class="status-msg">Waiting...</div>
+        </section>
+
+        <!-- RELAY -->
+        <section id="relay-center">
+            <div class="transmission-path">
+                <div class="channel-label">QUANTUM CHANNEL</div>
+                <div class="lane-line quantum"></div>
+                <div class="quantum-particle" id="quantum-blob"></div>
+            </div>
+
+            <div class="transmission-path">
+                <div class="channel-label">CLASSICAL CHANNEL</div>
+                <div class="lane-line classical"></div>
+                <div class="classical-packet" id="classical-bit"></div>
+            </div>
+
+            <div class="packet-inspector">
+                <h3>TRAFFIC LOG</h3>
+                <div id="packet-log" class="log-window">
+                    <div class="log-entry">Waiting...</div>
+                </div>
+                <div class="security-badge">
+                    ENCRYPTION ACTIVE
+                </div>
+            </div>
+        </section>
+
+        <!-- RECEIVER NODE -->
+        <section id="receiver-node" class="node-panel">
+            <div class="node-header">
+                <span class="status-dot waiting"></span>
+                <h2>RECEIVER</h2>
+            </div>
+            <div class="result-display">
+                <div class="canvas-wrapper">
+                    <h3>SCRAMBLED (NOISE)</h3>
+                    <canvas id="noise-canvas" width="128" height="128"></canvas>
+                </div>
+                <div class="canvas-wrapper">
+                    <h3>RESTORED IMAGE</h3>
+                    <canvas id="restored-canvas" width="128" height="128"></canvas>
+                    <button id="download-btn" class="secondary-btn hidden" onclick="downloadRestored()">DOWNLOAD PNG</button>
+                </div>
+            </div>
+            <div id="receiver-status" class="status-msg">Waiting for incoming quantum state...</div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Qiskit Engine | Quantum Communication Simulation</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
